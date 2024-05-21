@@ -1,6 +1,6 @@
 import cssText from "data-text:@/style.css";
 import type { PlasmoCSConfig } from "plasmo";
-import { CountButton } from "./features/OverlayIcon";
+import { WebsitePreviewTrigger } from "./features/OverlayIcon";
 
 export const config: PlasmoCSConfig = {
   matches: ["https://*/*"],
@@ -15,7 +15,7 @@ export const getStyle = () => {
 const PlasmoOverlay = () => {
   return (
     <div className="z-50 flex fixed bottom-6 right-6 ">
-      <CountButton></CountButton>
+      <WebsitePreviewTrigger></WebsitePreviewTrigger>
     </div>
   );
 };

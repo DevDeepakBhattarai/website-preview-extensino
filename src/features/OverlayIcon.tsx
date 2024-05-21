@@ -6,8 +6,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
-export const CountButton = () => {
-  const [count, increase] = useReducer((c) => c + 1, 0);
+export const WebsitePreviewTrigger = () => {
   const [isModelOpen, setIsModelOpen] = useState(false);
   function toggleModel() {
     setIsModelOpen((prev) => !prev);

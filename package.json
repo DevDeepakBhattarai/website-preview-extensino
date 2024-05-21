@@ -1,8 +1,8 @@
 {
-  "name": "website-preview-plasmo",
-  "displayName": "Website preview plasmo",
+  "name": "website-preview",
+  "displayName": "Website Preview ",
   "version": "0.0.1",
-  "description": "A basic Plasmo extension.",
+  "description": "A browser extension that shows the preview of https://dev.app.blendit.ai ",
   "author": "Deepak Bhattarai",
   "scripts": {
     "dev": "plasmo dev",
