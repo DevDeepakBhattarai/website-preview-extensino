@@ -5,7 +5,7 @@
   "description": "A browser extension that shows the preview of https://dev.app.blendit.ai ",
   "author": "Deepak Bhattarai",
   "scripts": {
-    "dev": "plasmo dev",
+    "dev": "plasmo dev --verbose",
     "build": "plasmo build",
     "package": "plasmo package"
   },
@@ -34,12 +34,13 @@
   },
   "manifest": {
     "host_permissions": [
-      "https://*/*"
+      "*://*.blendit.ai/"
     ],
     "permissions": [
       "activeTab",
       "scripting",
-      "tabs"
+      "tabs",
+      "cookies"
     ]
   }
 }
