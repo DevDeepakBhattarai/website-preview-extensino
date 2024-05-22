@@ -14,7 +14,7 @@ export const getStyle = () => {
 };
 
 const PlasmoOverlay = () => {
-  const [cookie, setCookie] = useState([]);
+  const [cookies, setCookies] = useState([]);
   useEffect(() => {
     async function run() {
       const response = await chrome.runtime.sendMessage({
@@ -22,7 +22,7 @@ const PlasmoOverlay = () => {
         hello: "HEllo",
       });
       console.log(response);
-      setCookie(response.cookies);
+      setCookies(response.cookies);
     }
     run();
   }, []);
@@ -30,7 +30,7 @@ const PlasmoOverlay = () => {
   console.log(window.screen.availWidth, window.screen.availHeight);
   return (
     <div className="z-50 flex fixed bottom-0 right-0">
-      <WebsitePreviewTrigger cookie={cookie}></WebsitePreviewTrigger>
+      <WebsitePreviewTrigger cookies={cookies}></WebsitePreviewTrigger>
     </div>
   );
 };

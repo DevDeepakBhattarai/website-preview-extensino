@@ -7,11 +7,11 @@ import {
 } from "@/components/ui/popover";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
-const URL = "https://dev.app.blendit.ai/";
+const URL = "https://app.blendit.ai/";
 export const WebsitePreviewTrigger = ({
-  cookie,
+  cookies,
 }: {
-  cookie: chrome.cookies.Cookie[];
+  cookies: chrome.cookies.Cookie[];
 }) => {
   const [isModelOpen, setIsModelOpen] = useState(false);
   const [isBeingDragged, setIsBeingDragged] = useState(false);
@@ -22,6 +22,9 @@ export const WebsitePreviewTrigger = ({
     }
   }
 
+  useEffect(() => {
+    console.log(ref.current);
+  }, []);
   return (
     <>
       <Popover
@@ -61,6 +64,7 @@ export const WebsitePreviewTrigger = ({
           </motion.div>
         </PopoverTrigger>
         <PopoverContent
+          forceMount={true}
           onInteractOutside={(e) => {
             e.preventDefault();
           }}
@@ -69,7 +73,6 @@ export const WebsitePreviewTrigger = ({
           <iframe
             id="blendit_ai"
             ref={ref}
-            src={URL}
             className={cn(
               "border-white rounded-lg border h-[28rem] w-full",
               isModelOpen ? "block" : "hidden"
