@@ -14,64 +14,51 @@ export const WebsitePreviewTrigger = ({
   cookie: chrome.cookies.Cookie[];
 }) => {
   const [isModelOpen, setIsModelOpen] = useState(false);
+  const [isBeingDragged, setIsBeingDragged] = useState(false);
   const ref = useRef<HTMLIFrameElement>(null);
-  useEffect(() => {
-    if (ref.current) {
-      ref.current.contentWindow.addEventListener("message", (e) => {
-        if (e.data.type == "set") {
-          console.log(e.data);
-          const cookies = JSON.parse(e.data.cookies);
-          const sbCookie = cookies.find((cookie) =>
-            cookie.name.startsWith("sb-")
-          );
-
-          ref.current.contentDocument.cookie = `${sbCookie.name}=${sbCookie.value}; domain=dev.app.blendit.ai;`;
-          ref.current.contentWindow.location.reload();
-          console.log(ref.current.contentDocument.cookie);
-        }
-      });
-    }
-  }, []);
-
-  useEffect(() => {
-    ref.current.contentWindow.postMessage(
-      {
-        type: "set",
-        cookies: JSON.stringify(cookie),
-      },
-      ref.current.contentWindow.origin
-    );
-  }, [cookie]);
-
   function toggleModel() {
-    setIsModelOpen((prev) => !prev);
-    ref.current.contentWindow.postMessage(
-      { type: "get" },
-      ref.current.contentWindow.origin
-    );
+    if (!isBeingDragged) {
+      setIsModelOpen((prev) => !prev);
+    }
   }
 
   return (
     <>
-      <Popover open={isModelOpen} onOpenChange={(open) => setIsModelOpen(open)}>
-        <PopoverTrigger asChild>
+      <Popover
+        open={isModelOpen}
+        onOpenChange={(open) => {
+          if (!isBeingDragged) setIsModelOpen(open);
+        }}
+      >
+        <PopoverTrigger
+          asChild
+          className="absolute right-4 bottom-4 bg-gray-500 h-12 w-12 overflow-hidden rounded-full border border-white"
+        >
           <motion.div
-            className="bottom-4 right-4 bg-red-500 h-24 w-24"
+            className="absolute bottom-4 right-4"
             drag
             dragConstraints={{
-              left: -1 * window.screen.availWidth,
+              left: -1 * (window.screen.availWidth - 60),
               right: 0,
-              top: -1 * window.screen.availHeight,
+              top: -1 * (window.screen.availHeight - 3 * 50),
               bottom: 0,
             }}
-          ></motion.div>
-          <motion.button
-            drag
-            onClick={toggleModel}
-            className="absolute right-4 bottom-4 bg-gray-500 h-12 w-12 overflow-hidden rounded-full border border-white"
+            dragMomentum={false}
+            onDragStart={() => {
+              setIsBeingDragged(true);
+            }}
+            onDragEnd={() => {
+              setIsBeingDragged(false);
+            }}
           >
-            <img className="h-12 w-12" src={logo} alt="Logo" />
-          </motion.button>
+            <motion.button onClick={toggleModel}>
+              <img
+                className="h-12 w-12 pointer-events-none"
+                src={logo}
+                alt="Logo"
+              />
+            </motion.button>
+          </motion.div>
         </PopoverTrigger>
         <PopoverContent
           onInteractOutside={(e) => {
